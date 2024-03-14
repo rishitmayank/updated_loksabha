@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Loksabha Poll Results</title>
+  {% comment %} <style>
+    body {
+      font-family: Arial, sans-serif;
+      {% comment %} background-color: #f0f0f0;  Fallback background color  
+      background-image:url("seats.png");
+      background-size:cover;
+      height:100vh;
+      width:100vw;
+    }
+
+    .background-image {
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+    }
+
+    .container {
+      position: relative;
+      z-index: 1;
+      max-width: 800px;
+      margin: 0 auto;
+      text-align: center;
+      #ground-color: rgba(255, 255, 255, 0.8); /* Adding a semi-transparent white #ground to make text more readable */
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Adding a subtle shadow effect */
+    }
+
+    .party {
+      margin-bottom: 10px;
+    }
+
+    .party-name {
+      font-weight: bold;
+    }
+
+    .seats-bar {
+      background-color: lightgray;
+      border: 1px solid #333;
+      height: 20px;
+      margin-top: 5px;
+      position: relative;
+    }
+
+    .seats-fill {
+      position: absolute;
+      height: 100%;
+    }
+
+    .bjp .seats-fill {
+      background-color: orange;
+    }
+
+    .indi .seats-fill {
+      background-color: blue;
+    }
+
+    .upload-input {
+      margin-top: 20px;
+    }
+    body{
+      backgroundImage:url("seats.png");
+      
+    }
+  </style> {% endcomment %}
+</head>
+<body>
+  <div class="container">
+    <h2>Loksabha Poll Results 2024</h2>
+    <p>Total number of seats: 543</p>
+    <div class="party bjp">
+      <span class="party-name">BJP:</span>
+      <input type="range" id="bjp-seats" value="400" min="400" max="543" step="1">
+      <span id="bjp-seat-value">400</span>
+      <div class="seats-bar">
+        <div class="seats-fill" id="bjp-fill" style="width: 73.7%;"></div>
+      </div>
+    </div>
+    <div class="party indi">
+      <span class="party-name">OTHERS:</span>
+      <input type="range" id="indi-seats" value="6" min="0" max="60" step="1">
+      <span id="indi-seat-value">6</span>
+      <div class="seats-bar">
+        <div class="seats-fill" id="indi-fill" style="width: 4.2%;"></div>
+      </div>
+    </div>
+  
+    </div>
+
+  <script>
+    const bjpSeatsInput = document.getElementById('bjp-seats');
+    const indiSeatsInput = document.getElementById('indi-seats');
+    const bjpFill = document.getElementById('bjp-fill');
+    const indiFill = document.getElementById('indi-fill');
+    const bjpSeatValue = document.getElementById('bjp-seat-value');
+    const indiSeatValue = document.getElementById('indi-seat-value');
+    const imageUpload = document.getElementById('image-upload');
+    const backgroundImage = document.querySelector('.background-image');
+
+    imageUpload.addEventListener('change', function(e) {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function() {
+          backgroundImage.style.backgroundImage = `url(${reader.result})`;
+        }
+        reader.readAsDataURL(file);
+      }
+    });
+
+    bjpSeatsInput.addEventListener('input', function() {
+      let value = parseInt(this.value);
+      if (value < 400) {
+        value = 400;
+      }
+      const percentage = ((value - 400) / 143) * 100;
+      bjpFill.style.width = percentage + '%';
+      bjpSeatValue.innerText = value;
+    });
+
+    indiSeatsInput.addEventListener('input', function() {
+      let value = parseInt(this.value);
+      if (value > 60) {
+        value = 60;
+      }
+      const percentage = (value / 60) * 100;
+      indiFill.style.width = percentage + '%';
+      indiSeatValue.innerText = value;
+    });
+  </script>
+</body>
+</html>

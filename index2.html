@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+    body{
+        background-image: url("lok-sabha.png");
+        background-size: cover;
+        background-repeat: no-repeat;
+        height: 100vh;
+        width: 100vw;
+    }
+    .container {
+      position: relative;
+      top:25%;
+      z-index: 1;
+      max-width: 800px;
+      margin: 0 auto;
+      text-align: center;
+      background-color: rgba(255, 255, 255, 0.4); /* Adding a semi-transparent white #ground to make text more readable */
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Adding a subtle shadow effect */
+      display:grid;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .party {
+      margin-bottom: 10px;
+    }
+
+    .party-name {
+      font-weight: bold;
+    }
+
+    .seats-bar {
+      background-color: lightgray;
+      border: 1px solid #333;
+      height: 20px;
+      margin-top: 5px;
+      position: relative;
+    }
+
+    .seats-fill {
+      position: absolute;
+      height: 100%;
+    }
+
+    .bjp .seats-fill {
+      background-color: orange;
+    }
+
+    .indi .seats-fill {
+      background-color: blue;
+    }
+
+    .upload-input {
+      margin-top: 20px;
+    }
+.seat{
+    color:black;
+}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2 class="seat">Loksabha Poll Results 2024</h2>
+        <p class="seat">Total number of seats: 543</p>
+        <div class="party bjp">
+          <span class="party-name">BJP:</span>
+          <input type="range" id="bjp-seats" value="400" min="400" max="543" step="1">
+          <span id="bjp-seat-value">400</span>
+          <div class="seats-bar">
+            <div class="seats-fill" id="bjp-fill" style="width: 73.7%;"></div>
+          </div>
+        </div>
+        <div class="party indi">
+          <span class="party-name">OTHERS:</span>
+          <input type="range" id="indi-seats" value="6" min="0" max="60" step="1">
+          <span id="indi-seat-value">6</span>
+          <div class="seats-bar">
+            <div class="seats-fill" id="indi-fill" style="width: 4.2%;"></div>
+          </div>
+        </div>
+      
+        </div>
+    
+      <script>
+        const bjpSeatsInput = document.getElementById('bjp-seats');
+        const indiSeatsInput = document.getElementById('indi-seats');
+        const bjpFill = document.getElementById('bjp-fill');
+        const indiFill = document.getElementById('indi-fill');
+        const bjpSeatValue = document.getElementById('bjp-seat-value');
+        const indiSeatValue = document.getElementById('indi-seat-value');
+    
+        bjpSeatsInput.addEventListener('input', function() {
+          let value = parseInt(this.value);
+          if (value < 400) {
+            value = 400;
+          }
+          const othersSeats = 543 - value;
+          const bjpPercentage = (value / 543) * 100;
+          const othersPercentage = 100 - bjpPercentage;
+          
+          bjpFill.style.width = bjpPercentage + '%';
+          indiFill.style.width = othersPercentage + '%';
+          
+          bjpSeatValue.innerText = value;
+          indiSeatValue.innerText = othersSeats;
+        });
+    
+        indiSeatsInput.addEventListener('input', function() {
+          let value = parseInt(this.value);
+          if (value > 60) {
+            value = 60;
+          }
+          const bjpSeats = 543 - value;
+          const bjpPercentage = (bjpSeats / 543) * 100;
+          const indiPercentage = 100 - bjpPercentage;
+          
+          bjpFill.style.width = bjpPercentage + '%';
+          indiFill.style.width = indiPercentage + '%';
+          
+          bjpSeatValue.innerText = bjpSeats;
+          indiSeatValue.innerText = value;
+        });
+      </script>
+    
+</body>
+</html>
